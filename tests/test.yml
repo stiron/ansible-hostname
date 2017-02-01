@@ -1,0 +1,6 @@
+---
+- hosts: all
+  vars:
+    hostname: test.host.org
+  roles:
+    - ansible-hostname

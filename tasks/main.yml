@@ -1,6 +1,4 @@
 ---
 - name: Set the hostname
   hostname:
-    name: "{{ hostname | default('hostname.not.set') }}"
-  tags:
-    - hostname
+    name: "{{ hostname }}"

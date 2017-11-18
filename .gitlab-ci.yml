@@ -1,19 +1,18 @@
-Centos7:
+Centos 7 Test:
   image: "centos:7"
   before_script:
     - rpm -i https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-    - yum -y install ansible openssh-server git
+    - yum -y install ansible git
   script:
     - ansible-playbook --syntax-check -i tests/inventory tests/test.yml
     - ansible-playbook -i tests/inventory tests/test.yml --connection=local -u root --become-user=root
-    - ansible-playbook -i tests/inventory tests/test.yml --connection=local -u root --become-user=root | grep 'changed=0.*failed=0' || exit 1
+    - ansible-playbook -i tests/inventory tests/test.yml --connection=local -u root --become-user=root | grep -q 'changed=0.*failed=0' || exit 1
     
-Ubuntu16:
+Ubuntu 16.04 Test:
   image: "ubuntu:16.04"
   before_script:
-    - apt-get update && apt-get -y install ansible openssh-server git
-    - useradd -m tmolnar
+    - apt-get update && apt-get -y install ansible git
   script:
     - ansible-playbook --syntax-check -i tests/inventory tests/test.yml
     - ansible-playbook -i tests/inventory tests/test.yml --connection=local -u root --become-user=root
-    - ansible-playbook -i tests/inventory tests/test.yml --connection=local -u root --become-user=root | grep 'changed=0.*failed=0' || exit 1
+    - ansible-playbook -i tests/inventory tests/test.yml --connection=local -u root --become-user=root | grep -q 'changed=0.*failed=0' || exit 1

@@ -1,3 +1,16 @@
+DebianTest:
+  image: "debian:9"
+  before_script:
+    - echo 'deb http://ftp.debian.org/debian stretch-backports main contrib non-free' >> /etc/apt/sources.list
+    - apt -y update
+    - apt-get -y -t stretch-backports install ansible
+    - apt -y install git
+  script:
+    - ansible-playbook --syntax-check -i tests/inventory tests/test.yml
+    - ansible-playbook -i tests/inventory tests/test.yml --connection=local -u root --become-user=root
+    - ansible-playbook -i tests/inventory tests/test.yml --connection=local -u root --become-user=root |grep -q 'changed=0.*failed=0' || exit 1
+
+
 Centos 7 Test:
   image: "centos:7"
   before_script:
